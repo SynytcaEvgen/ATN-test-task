@@ -2,7 +2,7 @@ version: "3.7"
 services:
   db:
     image: postgres:14
-    container_name: postgres_db
+    container_name: atn_service_db
     restart: always
     env_file:
       - ./.env
@@ -12,7 +12,7 @@ services:
       - POSTGRES_PASSWORD
       - PGDATA
     volumes:
-      - ../2. Init Database:/docker-entrypoint-initdb.d
+      - ./pgdata:/docker-entrypoint-initdb.d
       - .:/var/lib/postgresql/data
     ports:
-      - "${POSTGRES_PORT}:${POSTGRES_PORT}"     
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
