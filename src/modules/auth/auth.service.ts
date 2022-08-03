@@ -15,7 +15,7 @@ import { User } from '../../db/entity/user.entity';
 export class AuthService {
   constructor(
     private userService: UsersService,
-    private jwtService: JwtService
+    private jwtService: JwtService,
   ) {}
 
   async login(userDto: CreateUserDto) {
@@ -28,7 +28,7 @@ export class AuthService {
     if (candidate) {
       throw new HttpException(
         `Users with email ${userDto.email} exists`,
-        HttpStatus.BAD_REQUEST
+        HttpStatus.BAD_REQUEST,
       );
     }
     const hashPassword = await bcryptjs.hash(userDto.password, 5);
@@ -51,7 +51,7 @@ export class AuthService {
     if (user) {
       const passwordEquals = await bcryptjs.compare(
         userDto.password,
-        user.password
+        user.password,
       );
       if (passwordEquals) {
         return user;

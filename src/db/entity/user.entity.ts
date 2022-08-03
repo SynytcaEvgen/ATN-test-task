@@ -2,8 +2,8 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinTable,
   ManyToMany,
+  Index,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -12,7 +12,10 @@ import { ApiProperty } from '@nestjs/swagger';
 
 import { Device } from './device.entity';
 
-@Entity({ name: 'users' })
+@Entity({ name: 'user' })
+@Index(['email'], {
+  unique: true,
+})
 export class User {
   @ApiProperty({ example: '1', description: 'Unique identifier' })
   @PrimaryGeneratedColumn('uuid')
@@ -28,12 +31,11 @@ export class User {
   @Column('text')
   email: string;
 
-  @Column('text')
+  @Column('text', { select: false })
   password: string;
 
-  @ManyToMany(() => Device, (device) => device.user)
-  @JoinTable()
-  device: Device;
+  @ManyToMany(() => Device, (device) => device.user, { eager: false })
+  device: Device[];
 
   @CreateDateColumn()
   createdAt: Date;

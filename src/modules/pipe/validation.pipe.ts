@@ -11,7 +11,7 @@ export class ValidationPipe implements PipeTransform<any> {
     if (error.length) {
       const message = error.map((item) => {
         return `${item.property} - ${Object.values(item.constraints).join(
-          ', '
+          ', ',
         )}`;
       });
       throw new ValidationException(message);

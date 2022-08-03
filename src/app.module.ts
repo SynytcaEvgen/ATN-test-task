@@ -11,6 +11,7 @@ import { DeviceModule } from './modules/device/device.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
@@ -23,7 +24,6 @@ import { DeviceModule } from './modules/device/device.module';
     }),
     UsersModule,
     AuthModule,
-    ConfigModule.forRoot(),
     DeviceModule,
   ],
 })

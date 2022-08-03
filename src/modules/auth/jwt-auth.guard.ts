@@ -12,7 +12,7 @@ import { JwtService } from '@nestjs/jwt';
 export class JwtAuthGaurd implements CanActivate {
   constructor(private jwtService: JwtService) {}
   canActivate(
-    context: ExecutionContext
+    context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     const req = context.switchToHttp().getRequest();
     try {
