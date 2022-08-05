@@ -49,7 +49,8 @@ Example response (JSON)
 
 3. Search all users by poduct ID:
 
-GET http://HOSTING/device/users?prodId=<AAA01>
+GET http://HOSTING/device/users?prodId=AAA01
+
 Headers 
 Authorization: token
 
@@ -68,6 +69,7 @@ Example response (JSON)
 4. Search all device by user email:
 
 GET http://HOSTING/device/devices?email='someEmail@email.com'
+
 Headers 
 Authorization: token
 
@@ -102,6 +104,7 @@ Example response (JSON)
 5. Get all user in a system
 
 GET http://HOSTING/rest/users
+
 Headers
 Authorization: token
 
@@ -123,6 +126,5 @@ Example response (JSON)
     },
     ...
 ]
-
 
 Documentation end
