@@ -15,7 +15,7 @@ import {
   ApiBearerAuth,
 } from '@nestjs/swagger';
 import { ValidationPipe } from '../pipe/validation.pipe';
-import { JwtAuthGaurd } from 'src/modules/auth/jwt-auth.guard';
+import { JwtAuthGaurd } from '../auth/jwt-auth.guard';
 
 import { User } from '../../db/entity/user.entity';
 import { UsersService } from './users.service';

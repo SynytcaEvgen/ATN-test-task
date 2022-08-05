@@ -2,6 +2,10 @@ Test poject for ATN Corp.
 
 Stack: REST API, NestJS, Postgresql, typeORM, jwt, typescript
 
+For init project you need have a installet Node.js and Docker
+For run app need:
+ - First type docker-compose up (after starting container run app)
+ - Second npm run start for runing up
 
 Documentation start: 
 
@@ -45,76 +49,80 @@ Example response (JSON)
 
 3. Search all users by poduct ID:
 
-POST http://HOSTING/search/byProdId
+GET http://HOSTING/device/users?prodId=<AAA01>
 Headers 
 Authorization: token
 
-Example request (JSON)
-{
-  "prodId": "0TDVS",
-}
 
 Example response (JSON)
-{
-    "prodId": "0TDVS",
-    "id": 13,
-    "prodName": "same Product Name",
-    "owners": [
-        {
-            id: 3434,
-            "name": "User Name",
-            "email": "usersmail@email.com",
-            "created_at": "2022-07-31T10:09:58.792Z",
-            "updated_at": "2022-07-31T10:09:58.792Z",
-        },
-        {
-            id: 43434,
-            "name": "User Name",
-            "email": "usersmail@email.com",
-            "created_at": "2022-07-31T10:09:58.792Z",
-            "updated_at": "2022-07-31T10:09:58.792Z",
-        }
-    ]
-    "created_at": "2022-07-31T10:09:58.792Z",
-    "updated_at": "2022-07-31T10:09:58.792Z",
-}
+[
+    {
+        "id": "2cb2568d-f6ed-40a8-a7ae-8b5b783ec102",
+        "name": "Zack",
+        "email": "some_ZK@gmail.com",
+        "createdAt": "2022-08-03T18:20:21.414Z",
+        "updatedAt": "2022-08-03T18:20:21.414Z"
+    }
+]
 
 4. Search all device by user email:
 
-PUT http://HOSTING/search/byEmail
+GET http://HOSTING/device/devices?email='someEmail@email.com'
 Headers 
 Authorization: token
 
-Example request (JSON)
-{
-  "email": "usersmail@email.com",
-}
+!!! email it is optional query with this query default be parse email of user by token
+http://HOSTING/device/devices also valid request and response all devices of authorization user
 
 Example response (JSON)
-{
-    "id": 34,
-    "name": "User Name",
-    "email": "usersmail@email.com",
-    "devices": [
-        {
-            "id": 233,
-            "name": "Device Name"
-            "prodId": "0TDVS",
-            "type": "type Device"
-            "details": "details string",
-            "created_at": "2022-07-31T09:20:19.315Z",
-            "updated_at": "2022-07-31T09:22:22.000Z"
-        },
-        {
-            "id": 234,
-            "name": "Device Name"
-            "prodId": "0TDVF",
-            "type": "type Device"
-            "details": "details string",
-            "created_at": "2022-07-31T09:20:19.315Z",
-            "updated_at": "2022-07-31T09:22:22.000Z"
-        }
-    ]
-    "created_at": "2022-07-31T09:20:19.315Z",
-    "updated_at": "2022-07-31T09:22:22.000Z"
-}
+[
+    {
+        "id": "fc4c53bf-1e97-45a4-a555-25003801c966",
+        "name": "Some device_26",
+        "prodId": "AAA26",
+        "createdAt": "2022-08-04T17:29:54.562Z",
+        "updatedAt": "2022-08-04T17:29:54.562Z"
+    },
+    {
+        "id": "718823f7-880f-4254-a622-379b639e5cfa",
+        "name": "Some device_25",
+        "prodId": "AAA25",
+        "createdAt": "2022-08-03T18:27:35.527Z",
+        "updatedAt": "2022-08-03T18:27:35.527Z"
+    },
+    {
+        "id": "2850ee5d-d3e3-484b-a2d9-8d861998923a",
+        "name": "Some device_22",
+        "prodId": "AAA22",
+        "createdAt": "2022-08-03T18:13:03.776Z",
+        "updatedAt": "2022-08-03T18:13:03.776Z"
+    }
+]
+
+5. Get all user in a system
+
+GET http://HOSTING/rest/users
+Headers
+Authorization: token
+
+Example response (JSON)
+[
+    {
+        "id": "4392c1e5-3432-433d-8be8-9633e449c602",
+        "name": "Petr",
+        "email": "some_P@gmail.com",
+        "createdAt": "2022-08-02T03:58:41.944Z",
+        "updatedAt": "2022-08-02T03:58:41.944Z"
+    },
+    {
+        "id": "401a880f-5182-47cb-8d24-8f118ad43677",
+        "name": "Valera",
+        "email": "some_V@gmail.com",
+        "createdAt": "2022-08-02T04:17:56.820Z",
+        "updatedAt": "2022-08-02T04:17:56.820Z"
+    },
+    ...
+]
+
+
+Documentation end

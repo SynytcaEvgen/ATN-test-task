@@ -40,7 +40,7 @@ export class DeviceController {
     private readonly deviceService: DeviceService,
     private readonly jwtService: JwtService,
   ) {}
-  @ApiOperation({ summary: 'Get all users by device ' })
+  @ApiOperation({ summary: 'Get all users by device' })
   @ApiResponse({ status: 200, type: [Device] })
   @UseGuards(JwtAuthGaurd)
   @ApiBearerAuth()
