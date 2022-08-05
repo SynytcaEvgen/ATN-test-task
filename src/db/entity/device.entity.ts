@@ -18,12 +18,24 @@ export class Device {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column('text')
+  @ApiProperty({
+    example: 'Some name of device',
+    description: 'Name of device',
+  })
+  @Column('text', { nullable: true })
   name: string;
 
-  @Column('text', { nullable: true })
+  @ApiProperty({
+    example: 'AAA01',
+    description: 'Device product number this unique identifier',
+  })
+  @Column('text')
   prodId: string;
 
+  @ApiProperty({
+    example: 'array of users',
+    description: 'this should be array with a users object',
+  })
   @ManyToMany(() => User, (user) => user.device, { eager: true })
   @JoinTable()
   user: User[];

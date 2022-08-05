@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Device } from 'src/db/entity/device.entity';
-import { User } from 'src/db/entity/user.entity';
+import { Device } from '../../db/entity/device.entity';
+import { User } from '../../db/entity/user.entity';
 import { UpdateDeviceDto } from './dto/device.dto';
 
 @Injectable()
@@ -26,7 +26,7 @@ export class DeviceService {
       throw new NotFoundException(
         `Device with poduct number ${prodId} not found`,
       );
-    console.log(device);
+
     return device.user;
   }
   async findAllDeviceByUser(email: string): Promise<Device[]> {
@@ -43,7 +43,7 @@ export class DeviceService {
     return user.device;
   }
 
-  async create(device: Device, userId: string): Promise<User> {
+  async create(device: Device, userId: string): Promise<Device> {
     const existDev = await this.deviceRepository.findOne({
       where: { prodId: device.prodId },
     });
@@ -57,13 +57,15 @@ export class DeviceService {
 
     if (existDev) {
       user.device.push(existDev);
-      return this.userRepository.save(user);
+      this.userRepository.save(user);
+      return existDev;
     }
     const createDevice = this.deviceRepository.create(device);
     await this.deviceRepository.save(createDevice);
 
     user.device.push(createDevice);
-    return this.userRepository.save(user);
+    await this.userRepository.save(user);
+    return createDevice;
   }
 
   async update(updateDto: UpdateDeviceDto, userId: string): Promise<Device> {

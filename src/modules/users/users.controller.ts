@@ -48,24 +48,14 @@ export class UsersController {
   getUser(@Param('email') email: string): Promise<User> {
     return this.usersService.getUserByEmail(email);
   }
-  @ApiOperation({ summary: 'Get user' })
-  @ApiResponse({ status: 200, type: User, description: 'get user by email' })
+
+  @ApiOperation({ summary: 'Get all users' })
+  @ApiResponse({ status: 200, type: User, description: 'get all users' })
   @ApiBearerAuth()
   @UsePipes(ValidationPipe)
   @UseGuards(JwtAuthGaurd)
   @Get()
   getAllUser(): Promise<User[]> {
     return this.usersService.getAllUser();
-  }
-
-  @ApiOperation({ summary: 'Get user device' })
-  @ApiResponse({ status: 200, type: User, description: 'get user by email' })
-  @ApiBearerAuth()
-  @UsePipes(ValidationPipe)
-  @UseGuards(JwtAuthGaurd)
-  @Get('/device/:deviceId')
-  getUserDevice(@Param('deviceId') deviceId: string): Promise<User[]> {
-    console.log(deviceId);
-    return this.usersService.getUserDevice(deviceId);
   }
 }

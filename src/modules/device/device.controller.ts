@@ -14,8 +14,8 @@ import {
 import { JwtService } from '@nestjs/jwt';
 
 import { DeviceService } from './device.service';
-import { Device } from 'src/db/entity/device.entity';
-import { User } from 'src/db/entity/user.entity';
+import { Device } from '../../db/entity/device.entity';
+import { User } from '../../db/entity/user.entity';
 import {
   CreateDeviceDto,
   UpdateDeviceDto,
@@ -29,9 +29,9 @@ import {
   ApiTags,
   ApiBearerAuth,
 } from '@nestjs/swagger';
-import { NotFoundResponse } from 'src/libs/type/type.response';
-import { JwtAuthGaurd } from 'src/modules/auth/jwt-auth.guard';
-import { ValidationPipe } from 'src/modules/pipe/validation.pipe';
+import { NotFoundResponse } from '../../db/type/type.response';
+import { JwtAuthGaurd } from '../auth/jwt-auth.guard';
+import { ValidationPipe } from '../pipe/validation.pipe';
 
 @ApiTags('Device')
 @Controller('device')
@@ -44,7 +44,7 @@ export class DeviceController {
   @ApiResponse({ status: 200, type: [Device] })
   @UseGuards(JwtAuthGaurd)
   @ApiBearerAuth()
-  @Get('devices')
+  @Get('users')
   async getAllUserByDevice(@Query() dto: GetAllDeviceDto): Promise<User[]> {
     const userArry = await this.deviceService.findAllUserByDevice(dto.prodId);
     return userArry;
@@ -53,7 +53,7 @@ export class DeviceController {
   @ApiResponse({ status: 200, type: [Device] })
   @UseGuards(JwtAuthGaurd)
   @ApiBearerAuth()
-  @Get('users')
+  @Get('devices')
   async getAllDeviceByUser(
     @Request() req: any,
     @Query() dto: GetAllUserDto,
@@ -64,8 +64,8 @@ export class DeviceController {
     return deviceArry;
   }
 
-  @ApiOperation({ summary: 'Save some entry to to-do list for user' })
-  @ApiResponse({ status: 200, type: Device, description: 'create to-do' })
+  @ApiOperation({ summary: 'Save some device' })
+  @ApiResponse({ status: 200, type: Device, description: 'create device' })
   @ApiBody({ type: CreateDeviceDto })
   @UseGuards(JwtAuthGaurd)
   @UsePipes(ValidationPipe)
@@ -74,16 +74,16 @@ export class DeviceController {
   async saveData(
     @Body() dto: CreateDeviceDto,
     @Request() req: any,
-  ): Promise<User> {
+  ): Promise<Device> {
     const device = new Device();
     device.name = dto.name;
     device.prodId = dto.prodId;
     const { id } = await this.decodeToken(req.headers.authorization);
-    return this.deviceService.create(device, id);
+    return await this.deviceService.create(device, id);
   }
   @ApiOperation({ summary: 'Change device for user' })
   @ApiBody({ type: UpdateDeviceDto })
-  @ApiResponse({ status: 200, description: 'change to-do' })
+  @ApiResponse({ status: 200, description: 'change device for user' })
   @ApiResponse({
     status: 404,
     description: 'Not found',
