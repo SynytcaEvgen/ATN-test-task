@@ -22,10 +22,17 @@ export class DeviceService {
       .orderBy({ 'user.createdAt': 'DESC' })
       .getOne();
 
-    if (!device)
+    if (!device) {
       throw new NotFoundException(
         `Device with poduct number ${prodId} not found`,
       );
+    }
+
+    if (device.user?.length === 0) {
+      throw new NotFoundException(
+        `Device with poduct number ${prodId} not have a owner`,
+      );
+    }
 
     return device.user;
   }
@@ -38,8 +45,16 @@ export class DeviceService {
       .orderBy({ 'device.createdAt': 'DESC' })
       .getOne();
 
-    if (!user)
+    if (!user) {
       throw new NotFoundException(`User with email ${email} not found`);
+    }
+
+    if (user.device?.length === 0) {
+      throw new NotFoundException(
+        `User with email ${email} not have any device`,
+      );
+    }
+
     return user.device;
   }
 
@@ -101,10 +116,14 @@ export class DeviceService {
 
     if (!user) {
       throw new NotFoundException(
+        `User wich has production number ${prodId} not found`,
+      );
+    }
+    if (user.device.length === 0) {
+      throw new NotFoundException(
         `In a User don't have device with production number ${prodId}`,
       );
     }
-
     user.device = user.device.filter((item) => item.prodId !== prodId);
 
     await this.userRepository.save(user);

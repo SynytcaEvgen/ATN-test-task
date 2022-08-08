@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -29,6 +29,9 @@ export class UsersService {
   }
   async getAllUser(): Promise<User[]> {
     const user = await this.userRepository.find();
+    if (!user) {
+      throw new NotFoundException(`Users not found`);
+    }
     return user;
   }
 }

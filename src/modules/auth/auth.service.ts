@@ -1,8 +1,7 @@
 import {
-  HttpException,
-  HttpStatus,
   Injectable,
   UnauthorizedException,
+  BadRequestException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcryptjs from 'bcryptjs';
@@ -25,17 +24,17 @@ export class AuthService {
 
   async registaration(userDto: CreateUserDto) {
     const candidate = await this.userService.getUserByEmail(userDto.email);
+
     if (candidate) {
-      throw new HttpException(
-        `Users with email ${userDto.email} exists`,
-        HttpStatus.BAD_REQUEST,
-      );
+      throw new BadRequestException(`Users with email ${userDto.email} exists`);
     }
+
     const hashPassword = await bcryptjs.hash(userDto.password, 5);
     const userout = await this.userService.create({
       ...userDto,
       password: hashPassword,
     });
+
     return this.generateToken(userout);
   }
 
