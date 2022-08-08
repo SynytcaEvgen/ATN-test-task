@@ -28,7 +28,7 @@ export class DeviceService {
       );
     }
 
-    if (device.user?.length === 0) {
+    if (device.user.length === 0) {
       throw new NotFoundException(
         `Device with poduct number ${prodId} not have a owner`,
       );
@@ -49,7 +49,7 @@ export class DeviceService {
       throw new NotFoundException(`User with email ${email} not found`);
     }
 
-    if (user.device?.length === 0) {
+    if (user.device.length === 0) {
       throw new NotFoundException(
         `User with email ${email} not have any device`,
       );

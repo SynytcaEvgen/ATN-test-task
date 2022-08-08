@@ -27,6 +27,7 @@ describe('DeviceService', () => {
   };
   deviceData.user = [userData, userData];
   userData.device = [deviceData, deviceData];
+  
   const mockDeviceRepository = {
     createQueryBuilder: jest.fn(() => ({
       leftJoinAndSelect: jest.fn().mockReturnThis(),
@@ -36,7 +37,7 @@ describe('DeviceService', () => {
       where: jest.fn().mockReturnThis(),
       andWhere: jest.fn().mockReturnThis(),
       getOne: jest.fn().mockImplementation(() => {
-        return userData || deviceData;
+        return deviceData;
       }),
     })),
     findOne: jest.fn().mockImplementation(() => {
